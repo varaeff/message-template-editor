@@ -1,0 +1,25 @@
+.startPage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.startButton {
+  padding: 10px 10px;
+  border: 1px solid #c3c3c3;
+  background-color: #dcdcdc;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.startButton:hover {
+  background-color: #cecaca;
+  border-color: #c3c3c3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.startButton:active {
+  box-shadow: 0 0 0 0;
+}

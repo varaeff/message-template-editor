@@ -1,0 +1,40 @@
+.placeinput {
+  position: relative;
+  margin: 10px 20px 10px 0;
+}
+
+.input {
+  width: 150px;
+  padding: 10px 4px 4px 4px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  border: 1px solid black;
+}
+
+.input::placeholder {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #b0b0b0;
+}
+
+.placeholder {
+  cursor: text;
+  position: absolute;
+  top: 10px;
+  left: 5px;
+  width: 100%;
+  display: inline;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #b0b0b0;
+  transition: transform 0.3s ease-in-out, font-size 0.3s ease-in-out;
+}
+
+.placeholder_edit {
+  font-size: 10px;
+  line-height: 14px;
+  transform: translate(-1px, -10px);
+}
