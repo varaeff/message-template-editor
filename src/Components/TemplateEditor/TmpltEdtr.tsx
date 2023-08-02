@@ -3,7 +3,7 @@ import React, { Fragment, useState } from "react";
 import TextArea from "./TextArea";
 import TagButtons from "./TagBtns";
 import ControlButtons from "./CtrlBtns";
-import { getSeparator, addBlocks, Block } from "../parsers";
+import { addBlocks, Block } from "../parsers";
 import Modal from "../Modal/Modal";
 
 interface TemplateEditorProps {
@@ -23,7 +23,7 @@ function TemplateEditor(props: TemplateEditorProps) {
   //шаблон сообщения
   const template: Block[] = props.template
     ? JSON.parse(localStorage.template)
-    : [{ index: 0, text: "", type: "TEXT", width: 100, sep: "" }];
+    : [{ index: 0, text: "", type: "TEXT", width: 100 }];
 
   const [textAreaInd, setTextAreaInd] = useState<number>(0); //индекс блока ввода
   const [cursorPos, setCursorPos] = useState<number>(0); //позиция курсора в блоке
@@ -75,7 +75,6 @@ function TemplateEditor(props: TemplateEditorProps) {
 
     // объединяем текст из полей перед и после блока
     const newText = textBlocks[delIndex - 1].text.concat(
-      textBlocks[endIndex].sep,
       textBlocks[endIndex].text
     );
     textBlocks[delIndex - 1].text = newText;
@@ -85,7 +84,7 @@ function TemplateEditor(props: TemplateEditorProps) {
 
     // переиндексируем блоки и обновляем вывод
     textBlocks.forEach((block, index) => (block.index = index));
-    handleStateChange(delIndex - 1, 0, newText);
+    handleStateChange(delIndex - 1, cursorPos, newText);
   }
 
   // ДОБАВЛЕНИЕ БЛОКА IF-THEN-ELSE
@@ -95,22 +94,16 @@ function TemplateEditor(props: TemplateEditorProps) {
       const currentText = textBlocks[textAreaInd].text;
       let newText1 = currentText.slice(0, cursorPos);
       let newText2 = currentText.slice(cursorPos);
-
-      // проверка на пробел или перенос строки при разбивке
-      const separator = getSeparator(newText1, newText2);
-
-      newText1 = newText1.trim();
-      newText2 = newText2.trim();
       let blockWidth = textBlocks[textAreaInd].width;
       if (textBlocks[textAreaInd].type !== "TEXT") blockWidth -= 10;
 
       // добавляем новые блоки в массив
-      textBlocks = addBlocks(textBlocks, textAreaInd, blockWidth, separator);
+      textBlocks = addBlocks(textBlocks, textAreaInd, blockWidth);
 
       // переиндексируем блоки и обновляем вывод
       textBlocks.forEach((block, index) => (block.index = index));
-      handleStateChange(textAreaInd + 4, 0, newText2);
-      handleStateChange(textAreaInd, 0, newText1);
+      handleStateChange(textAreaInd + 4, cursorPos, newText2);
+      handleStateChange(textAreaInd, cursorPos, newText1);
     } else {
       setContent(<p>Maximum nesting depth of elements - 7</p>);
       props.onModal();

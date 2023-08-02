@@ -15,12 +15,24 @@ function MessagePreview(props: MessagePreviewProps) {
     acc[key] = "";
     return acc;
   }, {} as { [key: string]: string });
-
   const [values, setLetterNames] = useState<{ [key: string]: string }>(names);
+  const shortid = require("shortid");
+  const hash = shortid.generate();
 
   function handleNameChange(tag: string, name: string) {
     setLetterNames((prevNames) => ({ ...prevNames, [tag]: name }));
   }
+
+  //защита переменных от изменения в итоговом сообщении
+  function hashValues(str: string, values: Record<string, string>): string {
+    const regex = /\{([^{}]+)\}/g;
+    return str.replace(regex, (match, key) => {
+      return values.hasOwnProperty(key) ? "{".concat(key, hash, "}") : match;
+    });
+  }
+
+  const hashedTemplate: Block[] = JSON.parse(JSON.stringify(props.template));
+  hashedTemplate.map((block) => (block.text = hashValues(block.text, values)));
 
   return (
     <div>
@@ -30,10 +42,7 @@ function MessagePreview(props: MessagePreviewProps) {
       <TextArea
         type="TEXT"
         readOnly={true}
-        text={generateMessage(
-          JSON.parse(JSON.stringify(props.template)),
-          values
-        )}
+        text={generateMessage(hashedTemplate, values, hash, true)}
         index={0}
         width={""}
         stateChange={function (
