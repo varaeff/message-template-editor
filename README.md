@@ -6,7 +6,9 @@
 https://monosnap.com/file/ZmfoYTNzlOLH6L69TL6JEEXGzV2aGa
 
 Требования к виджету редактирования шаблона сообщений:
+
 На вход виджет получает: 
+
 arrVarNames [required] - массив имен переменных
 template [optional] - шаблон сообщения.
 callbackSave - асинхронная функция сохранения шаблона
