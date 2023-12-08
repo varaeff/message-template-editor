@@ -9,7 +9,7 @@ https://monosnap.com/file/ZmfoYTNzlOLH6L69TL6JEEXGzV2aGa
 
 На вход виджет получает: 
 
-arrVarNames [required] - массив имен переменных
+arrVarNames [required] - массив имен переменных<br>
 template [optional] - шаблон сообщения.
 callbackSave - асинхронная функция сохранения шаблона
 Работа с переменными:
